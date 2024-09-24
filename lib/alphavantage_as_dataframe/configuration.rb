@@ -1,4 +1,4 @@
-module Alphavantage
+module AlphavantageAsDataframe
   class << self
     def configuration
       @configuration ||= Configuration.new

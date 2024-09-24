@@ -1,6 +1,6 @@
-describe Alphavantage::Crypto do
+describe AlphavantageAsDataframe::Crypto do
   before do
-    Alphavantage.configure do |config|
+    AlphavantageAsDataframe.configure do |config|
       config.api_key = 'demo'
     end
   end
@@ -9,7 +9,7 @@ describe Alphavantage::Crypto do
     subject { described_class.health_index(symbol: 'BTC') }
 
     before do
-      stub_request(:get, "https://www.alphavantage.co/query?function=CRYPTO_RATING&symbol=BTC&apikey=demo").
+      stub_request(:get, "https://www.alphavantage_as_dataframe.co/query?function=CRYPTO_RATING&symbol=BTC&apikey=demo").
         to_return(status: 200, body: file_fixture("crypto/health_index.json"), headers: {})
     end
 
@@ -22,7 +22,7 @@ describe Alphavantage::Crypto do
     subject { described_class.new(symbol: 'ETH', market: 'USD').intraday(interval: '5min') }
 
     before do
-      stub_request(:get, "https://www.alphavantage.co/query?function=CRYPTO_INTRADAY&symbol=ETH&market=USD&interval=5min&apikey=demo").
+      stub_request(:get, "https://www.alphavantage_as_dataframe.co/query?function=CRYPTO_INTRADAY&symbol=ETH&market=USD&interval=5min&apikey=demo").
         to_return(status: 200, body: file_fixture("crypto/intraday.json"), headers: {})
     end
 
@@ -45,7 +45,7 @@ describe Alphavantage::Crypto do
     context 'when invalid interval given' do
       subject { described_class.new(symbol: 'ETH', market: 'USD').intraday(interval: '100min') }
       it 'should raise error' do
-        expect { subject }.to raise_error(Alphavantage::Error, /Invalid interval given./)
+        expect { subject }.to raise_error(AlphavantageAsDataframe::Error, /Invalid interval given./)
       end
     end
   end
@@ -53,7 +53,7 @@ describe Alphavantage::Crypto do
   describe '#daily' do
     subject { described_class.new(symbol: 'BTC', market: 'CNY').daily }
     before do
-      stub_request(:get, "https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=BTC&market=CNY&apikey=demo").
+      stub_request(:get, "https://www.alphavantage_as_dataframe.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=BTC&market=CNY&apikey=demo").
         to_return(status: 200, body: file_fixture("crypto/daily.json"), headers: {})
     end
     it 'returns meta data' do
@@ -71,7 +71,7 @@ describe Alphavantage::Crypto do
   describe '#weekly' do
     subject { described_class.new(symbol: 'BTC', market: 'CNY').weekly }
     before do
-      stub_request(:get, "https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_WEEKLY&symbol=BTC&market=CNY&apikey=demo").
+      stub_request(:get, "https://www.alphavantage_as_dataframe.co/query?function=DIGITAL_CURRENCY_WEEKLY&symbol=BTC&market=CNY&apikey=demo").
         to_return(status: 200, body: file_fixture("crypto/weekly.json"), headers: {})
     end
     it 'returns meta data' do
@@ -89,7 +89,7 @@ describe Alphavantage::Crypto do
   describe '#monthly' do
     subject { described_class.new(symbol: 'BTC', market: 'CNY').monthly }
     before do
-      stub_request(:get, "https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_MONTHLY&symbol=BTC&market=CNY&apikey=demo").
+      stub_request(:get, "https://www.alphavantage_as_dataframe.co/query?function=DIGITAL_CURRENCY_MONTHLY&symbol=BTC&market=CNY&apikey=demo").
         to_return(status: 200, body: file_fixture("crypto/monthly.json"), headers: {})
     end
     it 'returns meta data' do

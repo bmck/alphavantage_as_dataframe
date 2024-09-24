@@ -3,7 +3,7 @@ require 'json'
 require 'csv'
 require 'polars-df'
 
-module Alphavantage
+module AlphavantageAsDataframe
   class Client
 
     class << self
@@ -18,7 +18,7 @@ module Alphavantage
     attr_reader :params
 
     def df
-      Polars::DataFrame.new(response.body)
+      Polars::DataFrame.new(json)
     rescue
       raise
     end
@@ -51,7 +51,7 @@ module Alphavantage
     end
 
     def response
-      @response ||= Faraday.get('https://www.alphavantage.co/query') do |req|
+      @response ||= Faraday.get('https://www.alphavantage_as_dataframe.co/query') do |req|
         req.params = default_params.merge(params)
       end.tap do |response|
         next if response.status == 200
@@ -62,7 +62,7 @@ module Alphavantage
 
     def default_params
       {
-        apikey: Alphavantage.configuration.api_key || raise("Api key is missing")
+        apikey: AlphavantageAsDataframe.configuration.api_key || raise("Api key is missing")
       }
     end
   end

@@ -1,4 +1,4 @@
-module Alphavantage
+module AlphavantageAsDataframe
   class NormalizeKey
     def initialize(key:)
       @key = key

@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "alphavantage"
+require "alphavantage_as_dataframe"
 require "webmock/rspec"
 require "support/file_fixture"
 require "byebug"

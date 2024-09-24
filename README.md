@@ -1,4 +1,4 @@
-[![Gem Version](https://badge.fury.io/rb/alphavantage.svg)](https://badge.fury.io/rb/alphavantage)
+
 # Alpha Vantage Ruby Library
 
 The Alpha Vantage Ruby library provides convenient access to the [Alpha Vantage API](https://www.alphavantage.co/documentation/) from applications written in the Ruby language.
@@ -8,7 +8,7 @@ The Alpha Vantage Ruby library provides convenient access to the [Alpha Vantage 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'alphavantage'
+gem 'alphavantage_as_dataframe'
 ```
 
 And then execute:
@@ -17,17 +17,17 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install alphavantage
+    $ gem install alphavantage_as_dataframe
 
 ## Usage
 
 The library needs to be configured with your account's api key which you can obtain from https://www.alphavantage.co/support/#api-key.
-Set the `Alphavantage.configuration.api_key` to its value. If you are using Rails, you can configure this in an initializer.
+Set the `AlphavantageAsDataframe.configuration.api_key` to its value. If you are using Rails, you can configure this in an initializer.
 
 ```ruby
-require 'alphavantage'
+require 'alphavantage_as_dataframe'
 
-Alphavantage.configure do |config|
+AlphavantageAsDataframe.configure do |config|
   config.api_key = 'your-api-key'
 end
 ```
@@ -35,12 +35,12 @@ end
 ### Accessing a response object
 All JSON responses are converted to pseudo-objects that have method-like accessors for hash keys
 ```ruby
-quote = Alphavantage::TimeSeries.new(symbol: 'TSLA').quote
+quote = AlphavantageAsDataframe::TimeSeries.new(symbol: 'TSLA').quote
 quote.previous_close #=> "719.6900"
 quote.volume         #=> "27879033"
 ```
 
-All hash keys are also normalized to provide clean and consistent access to values since the Alphavantage API returns arbitrarily formatted keys with numbers, spaces, letters and symbols (i.e. "Crypto Rating (FCAS)", "3. fcas rating", "4. Last Refreshed", "Time Series FX (5min)", "1a. open (CNY)")
+All hash keys are also normalized to provide clean and consistent access to values since the AlphavantageAsDataframe API returns arbitrarily formatted keys with numbers, spaces, letters and symbols (i.e. "Crypto Rating (FCAS)", "3. fcas rating", "4. Last Refreshed", "Time Series FX (5min)", "1a. open (CNY)")
 
 With this normalization, you can now access via
 
@@ -53,9 +53,9 @@ instead of
 ### Stock Time Series
 
 ```ruby
-Alphavantage::TimeSeries.search(keywords: 'Tesla')
+AlphavantageAsDataframe::TimeSeries.search(keywords: 'Tesla')
 
-stock_timeseries = Alphavantage::TimeSeries.new(symbol: 'TSLA')
+stock_timeseries = AlphavantageAsDataframe::TimeSeries.new(symbol: 'TSLA')
 stock_timeseries.quote
 stock_timeseries.monthly
 stock_timeseries.monthly(adjusted: true)
@@ -68,7 +68,7 @@ stock_timeseries.intraday_extended_history(adjusted: true, outputsize: 'compact'
 ```
 ### Fundamental Data
 ```ruby
-company = Alphavantage::Fundamental.new(symbol: 'TSLA')
+company = AlphavantageAsDataframe::Fundamental.new(symbol: 'TSLA')
 company.overview
 company.earnings
 company.income_statement
@@ -77,7 +77,7 @@ company.cash_flow
 ```
 ### Forex
 ```ruby
-forex = Alphavantage::Forex.new(from_symbol: 'USD', to_symbol: 'JPY')
+forex = AlphavantageAsDataframe::Forex.new(from_symbol: 'USD', to_symbol: 'JPY')
 forex.exchange_rates
 forex.intraday(interval: '5min', outputsize: 'compact')
 forex.daily(outputsize: 'compact')
@@ -86,9 +86,9 @@ forex.monthly
 ```
 ### Crypto Currencies
 ```ruby
-Alphavantage::Crypto.health_index(symbol: 'BTC')
+AlphavantageAsDataframe::Crypto.health_index(symbol: 'BTC')
 
-crypto = Alphavantage::Crypto.new(symbol: 'BTC', market: 'USD')
+crypto = AlphavantageAsDataframe::Crypto.new(symbol: 'BTC', market: 'USD')
 crypto.intraday(interval: '5min')
 crypto.daily
 crypto.weekly
@@ -96,12 +96,12 @@ crypto.monthly
 ```
 
 ### Technical Indicators
-You can access all available indicators by simply using the actual technical indicator name listed on the [Alpha Vantage Documenetation](https://www.alphavantage.co/documentation/#technical-indicators) as the method name (i.e. `.stoch`, `.rsi`, `.plus_dm`, `.ht_trendline`, etc.).
+You can access all available indicators by simply using the actual technical indicator name listed on the [Alpha Vantage Documenetation](https://www.alphavantage_as_dataframe.co/documentation/#technical-indicators) as the method name (i.e. `.stoch`, `.rsi`, `.plus_dm`, `.ht_trendline`, etc.).
 
-You can also dig into [alphavantage/indicator.rb](https://github.com/codespore/alphavantage_ruby/blob/main/lib/alphavantage/indicator.rb) to view the list of available indicators.
+You can also dig into [alphavantage_as_dataframe/indicator.rb](https://github.com/bmck/alphavantage_as_dataframe/blob/main/lib/alphavantage_as_dataframe/indicator.rb) to view the list of available indicators.
 
 ```ruby
-indicator = Alphavantage::Indicator.new(symbol: 'TSLA', interval: '5min')
+indicator = AlphavantageAsDataframe::Indicator.new(symbol: 'TSLA', interval: '5min')
 indicator.sma(time_period: 7, series_type: 'close')
 indicator.macd(series_type: 'open', fastperiod: 12, slowperiod: 26, signalperiod: 9)
 
@@ -132,22 +132,22 @@ MOVING_AVERAGE_TYPES = {
 }
 ```
 
-Validations are also implemented to ensure correct values are provided for the various parameters. You can view a list of the validations in [alphavantage/validations.rb](https://github.com/codespore/alphavantage_ruby/blob/main/lib/alphavantage/validations.rb)
+Validations are also implemented to ensure correct values are provided for the various parameters. You can view a list of the validations in [alphavantage_as_dataframe/validations.rb](https://github.com/bmck/alphavantage_as_dataframe/blob/main/lib/alphavantage_as_dataframe/validations.rb)
 
 ### Other Functions
 
-To get functions not implemented in the gem you can use the `Alphavantage::Client` class:
+To get functions not implemented in the gem you can use the `AlphavantageAsDataframe::Client` class:
 
 If you want to get the news sentiments:
 
 ```ruby
-Alphavantage::Client.new(function: 'NEWS_SENTIMENT').json
+AlphavantageAsDataframe::Client.new(function: 'NEWS_SENTIMENT').json
 ```
 
 If you want to get the list of all listed US stocks and ETFs (Only supports CSV):
 
 ```ruby
-Alphavantage::Client.new(function: 'LISTING_STATUS').csv
+AlphavantageAsDataframe::Client.new(function: 'LISTING_STATUS').csv
 ```
 
 ## Development
@@ -158,7 +158,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/codespore/alphavantage_ruby. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/bmck/alphavantage_as_dataframe. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
@@ -166,4 +166,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the Alphavantage project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/codespore/alphavantage_ruby/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the AlphavantageAsDataframe project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/bmck/alphavantage_as_dataframe/blob/master/CODE_OF_CONDUCT.md).

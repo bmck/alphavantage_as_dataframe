@@ -1,4 +1,4 @@
-describe Alphavantage::NormalizeKey do
+describe AlphavantageAsDataframe::NormalizeKey do
   describe '#call' do
 
     let(:key_a) { "Crypto Rating (FCAS)" }

@@ -1,4 +1,4 @@
-module Alphavantage
+module AlphavantageAsDataframe
   module Validations
     VALID_SLICES = (1..2).map do |year|
       (1..12).map do |month|
@@ -39,12 +39,12 @@ module Alphavantage
     end
 
     def validate_integer(label:,value:)
-      raise Alphavantage::Error, "Invalid #{label} given. Must be integer." unless is_integer?(value)
+      raise AlphavantageAsDataframe::Error, "Invalid #{label} given. Must be integer." unless is_integer?(value)
       value
     end
 
     def validate_mat(moving_average_type)
-      raise Alphavantage::Error, "Invalid moving average type given." if !(0..8).include?(moving_average_type)
+      raise AlphavantageAsDataframe::Error, "Invalid moving average type given." if !(0..8).include?(moving_average_type)
       moving_average_type
     end
 
@@ -58,7 +58,7 @@ module Alphavantage
       return value if collection.include?(value.to_sym)
 
       message = "Invalid #{type} given. Given #{value}, allowed: #{collection.map{|c| "'#{c}'"}.join(', ')}"
-      raise Alphavantage::Error, message
+      raise AlphavantageAsDataframe::Error, message
     end
   end
 end

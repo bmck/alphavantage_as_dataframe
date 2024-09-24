@@ -1,6 +1,6 @@
-describe Alphavantage::Forex do
+describe AlphavantageAsDataframe::Forex do
   before do
-    Alphavantage.configure do |config|
+    AlphavantageAsDataframe.configure do |config|
       config.api_key = 'demo'
     end
   end
@@ -9,7 +9,7 @@ describe Alphavantage::Forex do
     subject { described_class.new(from_symbol: 'USD', to_symbol: 'JPY').exchange_rates }
 
     before do
-      stub_request(:get, "https://www.alphavantage.co/query?apikey=demo&from_currency=USD&function=CURRENCY_EXCHANGE_RATE&to_currency=JPY").
+      stub_request(:get, "https://www.alphavantage_as_dataframe.co/query?apikey=demo&from_currency=USD&function=CURRENCY_EXCHANGE_RATE&to_currency=JPY").
         to_return(status: 200, body: file_fixture("forex/exchange_rates.json"), headers: {})
     end
 
@@ -22,7 +22,7 @@ describe Alphavantage::Forex do
     subject { described_class.new(from_symbol: 'EUR', to_symbol: 'USD').intraday }
 
     before do
-      stub_request(:get, "https://www.alphavantage.co/query?apikey=demo&from_symbol=EUR&function=FX_INTRADAY&interval=5min&outputsize=compact&to_symbol=USD").
+      stub_request(:get, "https://www.alphavantage_as_dataframe.co/query?apikey=demo&from_symbol=EUR&function=FX_INTRADAY&interval=5min&outputsize=compact&to_symbol=USD").
         to_return(status: 200, body: file_fixture("forex/intraday.json"), headers: {})
     end
 
@@ -47,7 +47,7 @@ describe Alphavantage::Forex do
     subject { described_class.new(from_symbol: 'EUR', to_symbol: 'USD').daily }
 
     before do
-      stub_request(:get, "https://www.alphavantage.co/query?apikey=demo&from_symbol=EUR&function=FX_DAILY&outputsize=compact&to_symbol=USD").
+      stub_request(:get, "https://www.alphavantage_as_dataframe.co/query?apikey=demo&from_symbol=EUR&function=FX_DAILY&outputsize=compact&to_symbol=USD").
         to_return(status: 200, body: file_fixture("forex/daily.json"), headers: {})
     end
 
@@ -71,7 +71,7 @@ describe Alphavantage::Forex do
     subject { described_class.new(from_symbol: 'EUR', to_symbol: 'USD').weekly }
 
     before do
-      stub_request(:get, "https://www.alphavantage.co/query?apikey=demo&from_symbol=EUR&function=FX_WEEKLY&to_symbol=USD").
+      stub_request(:get, "https://www.alphavantage_as_dataframe.co/query?apikey=demo&from_symbol=EUR&function=FX_WEEKLY&to_symbol=USD").
         to_return(status: 200, body: file_fixture("forex/weekly.json"), headers: {})
     end
 
@@ -94,7 +94,7 @@ describe Alphavantage::Forex do
     subject { described_class.new(from_symbol: 'EUR', to_symbol: 'USD').monthly }
 
     before do
-      stub_request(:get, "https://www.alphavantage.co/query?apikey=demo&from_symbol=EUR&function=FX_MONTHLY&to_symbol=USD").
+      stub_request(:get, "https://www.alphavantage_as_dataframe.co/query?apikey=demo&from_symbol=EUR&function=FX_MONTHLY&to_symbol=USD").
         to_return(status: 200, body: file_fixture("forex/monthly.json"), headers: {})
     end
 

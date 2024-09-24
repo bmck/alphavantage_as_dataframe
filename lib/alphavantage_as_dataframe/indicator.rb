@@ -1,4 +1,4 @@
-module Alphavantage
+module AlphavantageAsDataframe
   class Indicator
     include Validations
 

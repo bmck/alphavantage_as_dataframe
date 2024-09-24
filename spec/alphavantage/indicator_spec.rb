@@ -1,6 +1,6 @@
-describe Alphavantage::Indicator do
+describe AlphavantageAsDataframe::Indicator do
   before do
-    Alphavantage.configure do |config|
+    AlphavantageAsDataframe.configure do |config|
       config.api_key = 'demo'
     end
   end
@@ -13,7 +13,7 @@ describe Alphavantage::Indicator do
     subject { described_class.new(symbol: 'TSLA', interval: interval).sma(time_period: time_period, series_type: series_type) }
 
     before do
-      stub_request(:get, "https://www.alphavantage.co/query?function=SMA&symbol=TSLA&interval=weekly&time_period=10&series_type=open&apikey=demo").
+      stub_request(:get, "https://www.alphavantage_as_dataframe.co/query?function=SMA&symbol=TSLA&interval=weekly&time_period=10&series_type=open&apikey=demo").
         to_return(status: 200, body: file_fixture("indicator/sma.json"), headers: {})
     end
 
@@ -32,21 +32,21 @@ describe Alphavantage::Indicator do
     context 'when invalid interval given' do
       let(:interval) { 'century' }
       it 'should raise error' do
-        expect { subject }.to raise_error(Alphavantage::Error, /Invalid interval given./)
+        expect { subject }.to raise_error(AlphavantageAsDataframe::Error, /Invalid interval given./)
       end
     end
 
     context 'when invalid time period given' do
       let(:time_period) { 'string' }
       it 'should raise error' do
-        expect { subject }.to raise_error(Alphavantage::Error, "Invalid time period given. Must be integer.")
+        expect { subject }.to raise_error(AlphavantageAsDataframe::Error, "Invalid time period given. Must be integer.")
       end
     end
 
     context 'when invalid series type given' do
       let(:series_type) { 'banana' }
       it 'should raise error' do
-        expect { subject }.to raise_error(Alphavantage::Error, /Invalid series type given./)
+        expect { subject }.to raise_error(AlphavantageAsDataframe::Error, /Invalid series type given./)
       end
     end
   end
@@ -59,7 +59,7 @@ describe Alphavantage::Indicator do
     subject { described_class.new(symbol: 'TSLA', interval: interval).ema(time_period: time_period, series_type: series_type) }
 
     before do
-      stub_request(:get, "https://www.alphavantage.co/query?function=EMA&symbol=TSLA&interval=weekly&time_period=10&series_type=open&apikey=demo").
+      stub_request(:get, "https://www.alphavantage_as_dataframe.co/query?function=EMA&symbol=TSLA&interval=weekly&time_period=10&series_type=open&apikey=demo").
         to_return(status: 200, body: file_fixture("indicator/ema.json"), headers: {})
     end
 
@@ -78,21 +78,21 @@ describe Alphavantage::Indicator do
     context 'when invalid interval given' do
       let(:interval) { 'century' }
       it 'should raise error' do
-        expect { subject }.to raise_error(Alphavantage::Error, /Invalid interval given./)
+        expect { subject }.to raise_error(AlphavantageAsDataframe::Error, /Invalid interval given./)
       end
     end
 
     context 'when invalid time period given' do
       let(:time_period) { 'string' }
       it 'should raise error' do
-        expect { subject }.to raise_error(Alphavantage::Error, "Invalid time period given. Must be integer.")
+        expect { subject }.to raise_error(AlphavantageAsDataframe::Error, "Invalid time period given. Must be integer.")
       end
     end
 
     context 'when invalid series type given' do
       let(:series_type) { 'banana' }
       it 'should raise error' do
-        expect { subject }.to raise_error(Alphavantage::Error, /Invalid series type given./)
+        expect { subject }.to raise_error(AlphavantageAsDataframe::Error, /Invalid series type given./)
       end
     end
   end
@@ -102,7 +102,7 @@ describe Alphavantage::Indicator do
     subject { described_class.new(symbol: 'IBM', interval: interval).vwap }
 
     before do
-      stub_request(:get, "https://www.alphavantage.co/query?function=VWAP&symbol=IBM&interval=#{interval}&apikey=demo").
+      stub_request(:get, "https://www.alphavantage_as_dataframe.co/query?function=VWAP&symbol=IBM&interval=#{interval}&apikey=demo").
         to_return(status: 200, body: file_fixture("indicator/vwap.json"), headers: {})
     end
 
@@ -124,7 +124,7 @@ describe Alphavantage::Indicator do
     subject { described_class.new(symbol: 'IBM', interval: interval).bop }
 
     before do
-      stub_request(:get, "https://www.alphavantage.co/query?function=BOP&symbol=IBM&interval=#{interval}&apikey=demo").
+      stub_request(:get, "https://www.alphavantage_as_dataframe.co/query?function=BOP&symbol=IBM&interval=#{interval}&apikey=demo").
         to_return(status: 200, body: file_fixture("indicator/bop.json"), headers: {})
     end
 
@@ -151,7 +151,7 @@ describe Alphavantage::Indicator do
     subject { described_class.new(symbol: 'IBM', interval: interval).macd(series_type: series_type, fastperiod: fastperiod, slowperiod: slowperiod, signalperiod: signalperiod) }
 
     before do
-      stub_request(:get, "https://www.alphavantage.co/query?function=MACD&symbol=IBM&interval=#{interval}&series_type=#{series_type}&fastperiod=#{fastperiod}&slowperiod=#{slowperiod}&signalperiod=#{signalperiod}&apikey=demo").
+      stub_request(:get, "https://www.alphavantage_as_dataframe.co/query?function=MACD&symbol=IBM&interval=#{interval}&series_type=#{series_type}&fastperiod=#{fastperiod}&slowperiod=#{slowperiod}&signalperiod=#{signalperiod}&apikey=demo").
         to_return(status: 200, body: file_fixture("indicator/macd.json"), headers: {})
     end
 
@@ -188,7 +188,7 @@ describe Alphavantage::Indicator do
     end
 
     before do
-      stub_request(:get, "https://www.alphavantage.co/query?apikey=demo&fastkperiod=5&function=STOCH&interval=weekly&slowdmatype=7&slowdperiod=3&slowkmatype=1&slowkperiod=3&symbol=IBM").
+      stub_request(:get, "https://www.alphavantage_as_dataframe.co/query?apikey=demo&fastkperiod=5&function=STOCH&interval=weekly&slowdmatype=7&slowdperiod=3&slowkmatype=1&slowkperiod=3&symbol=IBM").
         to_return(status: 200, body: file_fixture("indicator/stoch.json"), headers: {})
     end
 
