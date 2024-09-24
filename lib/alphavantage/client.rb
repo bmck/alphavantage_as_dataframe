@@ -1,12 +1,13 @@
 require 'securerandom'
 require 'json'
 require 'csv'
+require 'polars-df'
 
 module Alphavantage
   class Client
 
     class << self
-      def get(params:, datatype: :json)
+      def get(params:, datatype: :df)
         new(params).public_send(datatype)
       end
     end
@@ -15,6 +16,12 @@ module Alphavantage
       @params = params
     end
     attr_reader :params
+
+    def df
+      Polars::DataFrame.new(response.body)
+    rescue
+      raise
+    end
 
     def json
       Hashie::Mash.new(convert_hash_keys(JSON.parse(response.body))).tap do |response|
